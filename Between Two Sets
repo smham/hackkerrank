@@ -1,0 +1,61 @@
+#include<iostream>
+#include<algorithm>
+using namespace std;
+int MaximumCommon(int a,int b)
+{
+	while(a*b!=0)
+	{
+		if(a>b) a=a%b;
+		else b=b%a;
+	}
+	return a+b;
+}
+int MaximumCommonDivisor(int a[],int n)
+{
+	if(n==1) return a[0];
+	else if(n==2) return MaximumCommon(a[0],a[1]);
+	else return MaximumCommon(a[n-1],MaximumCommonDivisor(a,n-1));
+}
+int MinimumCommon(int m,int n)
+{
+	return(m*n)/(MaximumCommon(m,n));
+}
+int MinimumCommonMultiple(int a[],int n)
+{
+	if(n==1) return a[0];
+	else if(n==2) return MinimumCommon(a[0],a[1]);
+	else return MinimumCommon(a[n-1],MinimumCommonMultiple(a,n-1));
+}	
+int NumberSatisfy(int a,int b)
+{
+	int count=0;
+	for(int i=1;i<=b/a;i++)
+	{
+		if(b%(i*a)==0) count++;
+	}
+	return count;
+}
+int main()
+{
+	int n,m;
+	cin>>n>>m;
+	int a1[n];
+	int a2[n];
+	int a,b;
+	for(int i=0;i<n;i++)
+	cin>>a1[i];
+	for(int i=0;i<m;i++)
+	cin>>a2[i];
+	sort(a1,a1+n);
+	sort(a2,a2+m);
+	if(a2[0]%a1[n-1]!=0) cout<<"0";
+	else
+	{
+		a=MinimumCommonMultiple(a1,n);
+		b=MaximumCommonDivisor(a2,m);
+		if(b%a==0) cout<<NumberSatisfy(a,b)<<endl;
+		else cout<<"0";
+	}
+	
+	return 0;
+}
