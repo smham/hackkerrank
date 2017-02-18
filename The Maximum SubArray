@@ -1,0 +1,54 @@
+#include<iostream>
+#include<algorithm>
+using namespace std;
+int maxSeSub(int a[],int n)
+{
+	int maxSum;
+	int maxIndex;
+	for(int k=0;k<n;k++)
+	{
+		if(a[k]<a[k]+a[k-1]&&k!=0)
+		{
+			a[k]=a[k]+a[k-1];
+		}
+	}
+	maxSum=a[0];
+	for(int k=1;k<n;k++)
+	{
+		if(a[k]>maxSum) 
+		{
+			maxSum=a[k];
+		}
+	}
+	
+	return maxSum;
+}
+int main()
+{
+	int t;
+	cin>>t;
+	for(int i=0;i<t;i++)
+	{
+		int n;
+		cin>>n;
+		int a[n];
+		int b[n];
+		for(int j=0;j<n;j++) 
+		{
+			cin>>a[j];
+			b[j]=a[j];
+		}
+		cout<<maxSeSub(a,n);
+		sort(b,b+n);
+		int maxS=b[n-1];
+		for(int k=n-2;k>=0;k--)
+		{
+			if(maxS+b[k]>maxS) maxS=maxS+b[k];
+			else break; 
+		}
+		cout<<" "<<maxS<<endl;
+		
+	}
+	
+	return 0;
+}
